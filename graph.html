@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <body>
+		<h2>Temperature/Celsius: Measured levels Adressaparken last 20 results</h2>
+		<div id="plot" style="width:800px;height:400px;"></div>
+		<div id="msg"></div>
+		<br>Readings about every seven minutes. Most recent value first on graph.<br><br>
+		<a href="https://www.ntnu.edu/thepark/">Read about the park.</a>
+		<a href="https://parken.perseum.com/">Info about the API.</a>
+		<a href="https://www.ntnu.edu/employees/dagfinn.dybvig">Dagfinn Dybvig, Innovation Manager NTNU</a>
+		           
+        <script>                  
+          $.ajax({
+                type: 'get',
+                dataType: 'json',
+				  //this API request will return the data from the Park
+                url: "http://parken.perseum.com:10010/v1/sensorDataList?sensor=TC&limit=20&offset=0",
+          success: function(result) {
+					      $("#msg").text("Data went through :-)");	
+                    process(result);
+                    },
+          error: function(error) {
+				    result=[
+            {"sensor":"TC","date":"2019-05-11T19:07:15.000Z","value":"76.3"},
+				    {"sensor":"TC","date":"2019-05-11T19:00:41.000Z","value":"76.3"},
+						{"sensor":"TC","date":"2019-05-11T18:53:56.000Z","value":"76.5"},
+						{"sensor":"TC","date":"2019-05-11T18:47:11.000Z","value":"77.4"},
+						{"sensor":"TC","date":"2019-05-11T18:40:36.000Z","value":"77.8"},
+						{"sensor":"TC","date":"2019-05-11T18:34:04.000Z","value":"78.4"},
+						{"sensor":"TC","date":"2019-05-11T18:27:22.000Z","value":"78.8"},
+						{"sensor":"TC","date":"2019-05-11T18:20:49.000Z","value":"79.3"},
+						{"sensor":"TC","date":"2019-05-11T18:14:09.000Z","value":"80.0"},
+						{"sensor":"TC","date":"2019-05-11T18:07:35.000Z","value":"82.3"},
+						{"sensor":"TC","date":"2019-05-11T18:01:02.000Z","value":"84.0"},
+						{"sensor":"TC","date":"2019-05-11T17:54:23.000Z","value":"84.6"},
+						{"sensor":"TC","date":"2019-05-11T17:47:36.000Z","value":"84.9"},
+						{"sensor":"TC","date":"2019-05-11T17:33:28.000Z","value":"90.4"},
+						{"sensor":"TC","date":"2019-05-11T17:26:57.000Z","value":"90.9"},
+						{"sensor":"TC","date":"2019-05-11T17:20:27.000Z","value":"91.2"},
+						{"sensor":"TC","date":"2019-05-11T17:13:57.000Z","value":"88.8"},
+						{"sensor":"TC","date":"2019-05-11T17:07:26.000Z","value":"86.1"},
+						{"sensor":"TC","date":"2019-05-11T17:00:53.000Z","value":"85.5"},
+						{"sensor":"TC","date":"2019-05-11T16:54:23.000Z","value":"88.3"}];
+					        $("#msg").text("---Problem loading, using historical data---");						
+					          process(result);
+                    }
+            });
+					
+			function process(data){
+				console.log(data);
+				var n = data.length;
+				var x = new Array(n);
+				var y = new Array(n);
+				var i;               
+
+				for (i=0;i<n;i++){
+					x[i]=i+1;
+					y[i]=data[i].value;}
+																
+				var trace1 = {
+					x: x,
+					y: y,
+					mode: 'markers',
+					type: 'scatter'
+					};
+
+				var data=[trace1];
+						
+				Plotly.newPlot('plot', data);}
+                
+		</script>
+	</body>
+</html>
