@@ -1,5 +1,5 @@
 # Adressaparken
-Projects for the Adressaparken API/The Adressa Park in Trondehim, Norway
+Projects for the Adressaparken API/The Adressa Park in Trondheim, Norway
 
 See also:
 
